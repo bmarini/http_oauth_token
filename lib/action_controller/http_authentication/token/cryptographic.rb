@@ -16,7 +16,7 @@ module ActionController
         # Usage:
         # authenticate(self.request) { |token| Secret.find(token) }
         def authenticate(request, &secret_procedure)
-          token, opts = token_and_options(request)
+          token, opts = Token.token_and_options(request)
           secret      = secret_procedure.call(token)
 
           return nil if [
@@ -33,7 +33,9 @@ module ActionController
         # http://tools.ietf.org/html/draft-ietf-oauth-v2-05#section-5.3.1.2
         def normalized_request_string(request, options)
           [ options[:timestamp], options[:nonce], options[:algorithm],
-            request.request_method, request.host_with_port, request.url
+            request.request_method.to_s.upcase,
+            "%s:%s" % [request.host, request.port],
+            request.url
           ].join(',')
         end
 

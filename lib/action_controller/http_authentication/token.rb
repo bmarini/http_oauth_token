@@ -118,7 +118,7 @@ module ActionController
       # Returns an Array of [String, Hash] if a token is present.
       # Returns nil if no token is found.
       def token_and_options(request)
-        if header = request.authorization.to_s[/^Token (.*)/]
+        if header = authorization(request).to_s[/^Token (.*)/]
           values = $1.split(',').
             inject({}) do |memo, value|
               value.strip!                         # remove any spaces between commas and values
@@ -154,6 +154,13 @@ module ActionController
       def authentication_request(controller, realm)
         controller.headers["WWW-Authenticate"] = %(Token realm="#{realm.gsub(/"/, "")}")
         controller.__send__ :render, :text => "HTTP Token: Access denied.\n", :status => :unauthorized
+      end
+
+      def authorization(request)
+        request.env['HTTP_AUTHORIZATION']   ||
+        request.env['X-HTTP_AUTHORIZATION'] ||
+        request.env['X_HTTP_AUTHORIZATION'] ||
+        request.env['REDIRECT_X_HTTP_AUTHORIZATION']
       end
     end
   end
