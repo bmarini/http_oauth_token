@@ -121,10 +121,10 @@ module ActionController
         if header = request.authorization.to_s[/^Token (.*)/]
           values = $1.split(',').
             inject({}) do |memo, value|
-              value.strip!                      # remove any spaces between commas and values
-              key, value = value.split(/\=\"?/) # split key=value pairs
-              value.chomp!('"')                 # chomp trailing " in value
-              value.gsub!(/\\\"/, '"')          # unescape remaining quotes
+              value.strip!                         # remove any spaces between commas and values
+              key, value = value.split(/\=\"?/, 2) # split key=value pairs
+              value.chomp!('"')                    # chomp trailing " in value
+              value.gsub!(/\\\"/, '"')             # unescape remaining quotes
               memo.update(key => value)
             end
           [values.delete("token"), values.with_indifferent_access]
