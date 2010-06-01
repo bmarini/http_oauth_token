@@ -13,8 +13,10 @@ module ActionController
           end
         end
 
-        # Usage:
-        # authenticate(self.request) { |token| Secret.find(token) }
+        # Currently only the HMAC algorithm is supported.
+        # Pass a block that takes the token as a param and returns the secret
+        #
+        #   authenticate(self.request) { |token| Secret.find(token) }
         def authenticate(request, &secret_procedure)
           token, opts = Token.token_and_options(request)
           secret      = secret_procedure.call(token)

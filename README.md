@@ -1,20 +1,16 @@
-# Rails 2.3/3.0 Plugin for OAuth 2.0 Cryptographic Token authentication
+# Rails 2.3 Plugin for OAuth 2.0 Cryptographic Token authentication
 
-This plugin backports `ActionController::HttpAuthentication::Token` and
-leverages this module to give support for OAuth 2.0 Cryptographic Token
+This plugin backports `ActionController::HttpAuthentication::Token` from Rails
+3 and leverages this module to support OAuth 2.0 Cryptographic Token
 authentication.
 
     http://tools.ietf.org/html/draft-ietf-oauth-v2-05#section-5.3
-
-## Warning
-
-This plugin is not complete, and completely untested.
 
 ## Usage
 
     DummyController < ActionController::Base
       before_filter :oauth_authenticate
-      
+
       private
       def oauth_authenticate
         authenticate_with_http_oauth_token do |token|
@@ -22,7 +18,6 @@ This plugin is not complete, and completely untested.
         end
       end
     end
-
 
 ## How it works
 
