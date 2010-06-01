@@ -2,7 +2,7 @@ module ActionController
   module HttpAuthentication
     module Token
 
-      # Handler for OAuth 2.0 Cryptographic Tokens Requests
+      # Handler for OAuth 2.0 Cryptographic Token Requests
       # http://tools.ietf.org/html/draft-ietf-oauth-v2-05#section-5.3
       module Cryptographic
         extend self
@@ -44,6 +44,7 @@ module ActionController
           ActiveSupport::Base64.encode64s(OpenSSL::HMAC.digest(da, secret, data))
         end
 
+        # Copied from ActiveSupport::MessageVerifier
         def secure_compare(a, b)
           return false unless a.bytesize == b.bytesize
           l = a.unpack "C#{a.bytesize}"

@@ -1,3 +1,5 @@
+# Copied from rails master, with some slight modifications to work in rails
+# 2.3
 module ActionController
   module HttpAuthentication
     # Makes it dead easy to do HTTP Token authentication.
